@@ -1,0 +1,25 @@
+[
+	{
+		"question": "En quelle année a été construite la cathédrale de Lausanne ?",
+		"image": "cathedrale_wikipedia.png",
+		"answers": [
+			{ "text": "1111" },
+			{ "text": "2222" },
+			{ "text": "1234" },
+			{ "text": "6767" }
+		],
+		"correctAnswer": 0,
+		"explanation": "Elle a été construite en 321. [...]"
+	},
+	{
+		"question": "En quelle année le palais de Rumine a t-il été construit ?",
+		"answers": [
+			{ "text": "1234" },
+			{ "text": "2345" },
+			{ "text": "5678" },
+			{ "text": "1789" }
+		],
+		"correctAnswer": 3,
+		"explanation": "Il a été construite en 1789 par x. [...]"
+	}
+]

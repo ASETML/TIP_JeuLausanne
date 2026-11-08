@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="">
+	<head>
+		<meta charset="utf-8" />
+		<title>TIP histoire</title>
+	</head>
+	<body>
+		<header>Jeu histoire</header>
+		<main id="app">
+			<div class="home" v-if="homeShown">
+				<div v-if="endShown">
+					Vous avez eu {{ score }} bonne réponse cette partie!
+				</div>
+				<button @click="showGame">Commencer le jeu</button>
+			</div>
+			<div class="game" v-else>
+				<div class="score">Score: {{ score }}</div>
+				<div class="question">{{ card.question }}</div>
+				<img
+					class="image"
+					v-if="card.image"
+					:src="'./files/images/' + card.image"
+				/>
+				<div class="answers">
+					<div v-for="answer, idx in card.answers">
+						<button @click="answerQuestion(idx)">
+							{{ answer.text }}
+						</button>
+					</div>
+				</div>
+				<div v-if="answerRevealed">
+					{{ correctAnswer ? "Bonne réponse!" : "Mauvaise réponse" }}
+				</div>
+				<div class="explanation" v-if="answerRevealed">
+					{{card.explanation}}
+				</div>
+				<button v-if="answerRevealed" @click="nextQuestion">
+					{{ isEnd ? "Fin" : "Question suivante" }}
+				</button>
+			</div>
+		</main>
+		<footer></footer>
+	</body>
+
+	<script type="module">
+		import { createApp } from "https://unpkg.com/vue@3/dist/vue.esm-browser.js";
+		import json from "./files/questions.json" with { type: "json" };
+
+		//BUG: answers buttons not disable, you can farm score
+		createApp({
+			data() {
+				return {
+					homeShown: true,
+					endShown: false,
+					correctAnswer: false,
+					answerRevealed: false,
+					currentQuestion: 0,
+					score: 0,
+				};
+			},
+			computed: {
+				isEnd(){
+					return this.currentQuestion + 1 == json.length
+				}
+			},
+			methods: {
+				async showGame() {
+					//TODO: components?
+					this.homeShown = false;
+					this.endShown = false;
+					this.answerRevealed = false,
+					this.score = 0;
+					this.currentQuestion = 0;
+
+					this.card = json[this.currentQuestion];
+				},
+				endGame(){
+					this.homeShown = true;
+					this.endShown = true;
+				},
+				answerQuestion(answerIdx){
+					//check if the answer is correct
+					this.correctAnswer = answerIdx == json[this.currentQuestion].correctAnswer;
+					if (answerIdx == json[this.currentQuestion].correctAnswer) this.score++;
+					this.answerRevealed = true;
+				},
+				nextQuestion(){
+					if (this.isEnd) return this.endGame();
+
+					this.answerRevealed = false;
+					this.currentQuestion++;
+					this.card = json[this.currentQuestion];
+				}
+			},
+		}).mount("#app");
+	</script>
+</html>

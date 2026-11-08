@@ -1,0 +1,12 @@
+{
+	"question": "En quelle année a été construite la cathédrale de Lausanne ?",
+	"image": "cathedrale_wikipedia.png",
+	"answers": [
+		{ "text": "1111" },
+		{ "text": "2222" },
+		{ "text": "1234" },
+		{ "text": "6767" }
+	],
+	"correctAnswer": 0,
+	"explanation": "Elle a été construite en 321. [...]"
+}
