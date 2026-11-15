@@ -23,7 +23,10 @@
 				/>
 				<div class="answers">
 					<div v-for="answer, idx in card.answers">
-						<button @click="answerQuestion(idx)">
+						<button
+							@click="answerQuestion(idx)"
+							:disabled="answerRevealed"
+						>
 							{{ answer.text }}
 						</button>
 					</div>
@@ -46,7 +49,6 @@
 		import { createApp } from "https://unpkg.com/vue@3/dist/vue.esm-browser.js";
 		import json from "./files/questions.json" with { type: "json" };
 
-		//BUG: answers buttons not disable, you can farm score
 		createApp({
 			data() {
 				return {
