@@ -5,7 +5,10 @@
 		<title>TIP histoire</title>
 	</head>
 	<body>
-		<header>Jeu histoire</header>
+		<header>
+			<div>TIP - Jeu d'histoire sur Lausanne</div>
+			<div><a href="sources.html">Sources</a></div>
+		</header>
 		<main id="app">
 			<div class="home" v-if="homeShown">
 				<div v-if="endShown">
@@ -15,14 +18,16 @@
 			</div>
 			<div class="game" v-else>
 				<div class="score">Score: {{ score }}</div>
-				<div class="question">{{ card.question }}</div>
-				<img
-					class="image"
-					v-if="card.image"
-					:src="'./files/images/' + card.image"
-				/>
-				<div class="answers">
-					<div v-for="answer, idx in card.answers">
+				<div class="questionArea">
+					<img
+						class="image"
+						v-if="card.image"
+						:src="'./files/images/' + card.image"
+					/>
+					<div class="question">{{ card.question }}</div>
+				</div>
+				<div class="answers" v-if="!answerRevealed">
+					<div v-for="answer, idx in card.answers" class="answer">
 						<button
 							@click="answerQuestion(idx)"
 							:disabled="answerRevealed"
@@ -31,15 +36,18 @@
 						</button>
 					</div>
 				</div>
-				<div v-if="answerRevealed">
-					{{ correctAnswer ? "Bonne réponse!" : "Mauvaise réponse" }}
+				<div class="explanationArea">
+					<div v-if="answerRevealed">
+						{{ correctAnswer ? "Bonne réponse!" : "Mauvaise réponse"
+						}}
+					</div>
+					<div class="explanation" v-if="answerRevealed">
+						{{card.explanation}}
+					</div>
+					<button v-if="answerRevealed" @click="nextQuestion">
+						{{ isEnd ? "Fin" : "Question suivante" }}
+					</button>
 				</div>
-				<div class="explanation" v-if="answerRevealed">
-					{{card.explanation}}
-				</div>
-				<button v-if="answerRevealed" @click="nextQuestion">
-					{{ isEnd ? "Fin" : "Question suivante" }}
-				</button>
 			</div>
 		</main>
 		<footer></footer>
@@ -96,4 +104,66 @@
 			},
 		}).mount("#app");
 	</script>
+
+	<style>
+		header {
+			display: flex;
+			justify-content: space-between;
+		}
+
+		.home {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.home button {
+			padding: 10px;
+			font-size: 18px;
+		}
+
+		.questionArea {
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
+		}
+
+		.question {
+			font-size: 35px;
+			font-weight: bold;
+		}
+
+		.score {
+			font-size: 18px;
+		}
+
+		.answers {
+			display: grid;
+			grid-template-columns: 50% 50%;
+		}
+
+		.answer {
+			margin: 10px auto 10px auto;
+		}
+
+		.answer button {
+			font-size: 25px;
+			padding: 10px;
+			width: 350px;
+			height: 130px;
+		}
+
+		.explanationArea {
+			text-align: center;
+		}
+
+		.explanation {
+			font-size: 18px;
+		}
+
+		.explanationArea button {
+			padding: 10px;
+			font-size: 18px;
+		}
+	</style>
 </html>
